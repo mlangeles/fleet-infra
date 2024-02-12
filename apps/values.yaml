@@ -1,6 +1,3 @@
-metadata:
-  labels:
-    app: fleet-infra
 spec:
   destination:
     server: https://kubernetes.default.svc
