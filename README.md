@@ -63,3 +63,9 @@ argocd app create fleet-infra \
     --path apps  
 argocd app sync fleet-infra
 ```
+# TODO
+- Network Controller
+- Storage Controller
+- Security Controller
+- Docker Registry
+- Workflow Manager
