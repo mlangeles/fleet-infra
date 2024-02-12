@@ -61,7 +61,7 @@ argocd app create fleet-infra \
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/mlangeles/fleet-infra \
     --path apps  \
-    --labels app=flee-infra
+    --label app=fleet-infra
 argocd app sync fleet-infra
 ```
 # TODO
