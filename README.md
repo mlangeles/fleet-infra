@@ -10,12 +10,12 @@ Assumptions:
 ```bash
 curl -sfL https://get.k3s.io | sh -
 
-# Post installation verification
-sudo kubectl get nodes 
-
 # Obtain k3s Credentials
 sudo cp /etc/rancher/k3s/k3s.yaml  ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config
+
+# Post installation verification
+sudo kubectl get nodes 
 ```
 ## argocd
 
