@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kustomize-argocd
-  namespace: argocd
+  namespace: {{ .Values.argocd.namespace }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: kustomize-argocd
+    namespace: {{ .Values.argocd.namespace }}
     server: {{ .Values.spec.destination.server }}
   project: default
   source:

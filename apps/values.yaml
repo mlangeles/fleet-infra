@@ -6,3 +6,6 @@ spec:
     targetRevision: HEAD
   syncPolicy:
     automated: {}
+
+argocd:
+  namespace: argocd
