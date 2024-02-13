@@ -14,5 +14,6 @@ spec:
     chart: {{ .Values.nginxing.chart }}
     repoURL: {{ .Values.nginxing.repoURL }}
     targetRevision: {{ .Values.nginxing.targetRevision }}
-    helm: 
-      releaseName: {{ .Values.nginxing.releaseName }}
+    helm: {{ toYaml .Values.nginxing.helm | nindent 6 }}
+  syncPolicy: {{ toYaml .Values.nginxing.syncPolicy | nindent 4 }}
+    
