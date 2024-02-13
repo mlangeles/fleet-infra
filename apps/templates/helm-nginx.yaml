@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: helm-nginx
-  namespace: {{ .Values.nginxing.namespace }}
+  namespace: {{ .Values.argocd.namespace }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
