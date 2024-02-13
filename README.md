@@ -64,6 +64,34 @@ argocd app create fleet-infra \
     --label app=fleet-infra
 argocd app sync fleet-infra
 ```
+
+## helm
+
+Package manager for kubernetes
+
+Assumptions:
+- Running Kubernetes cluster
+
+```bash
+# Source 
+# https://helm.sh/docs/intro/
+
+# Helm Script Installation
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+rm ./get_helm.sh
+```
+
+### Test Helm
+```bash
+# Add NGINX Helm Repository
+helm repo add nginx https://kubernetes.github.io/ingress-nginx
+
+# NGINX Helm Chart Installation
+helm install my-ingress-nginx nginx/ingress-nginx --version 4.9.1
+```
+
 # TODO
 - Network Controller
 - Storage Controller

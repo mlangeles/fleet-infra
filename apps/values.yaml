@@ -9,3 +9,6 @@ spec:
 
 argocd:
   namespace: argocd
+
+nginxing:
+  namespace: nginxing

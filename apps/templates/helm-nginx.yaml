@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-nginx
+  namespace: {{ .Values.nginxing.namespace }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ .Values.nginxing.namespace }}
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    chart: {{ .Values.nginxing.chart }}
+    repoURL: {{ .Values.nginxing.repoURL }}
+    targetRevision: {{ .Values.nginxing.targetRevision }}
+    helm: 
+      releaseName: {{ .Values.nginxing.releaseName }}
