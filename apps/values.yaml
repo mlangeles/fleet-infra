@@ -12,3 +12,7 @@ argocd:
 
 nginxing:
   namespace: nginxing
+  chart: ingress-nginx
+  repoURL: https://kubernetes.github.io/ingress-nginx
+  targetRevision: 4.9.1
+  releaseName: nginx

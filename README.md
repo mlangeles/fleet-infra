@@ -85,11 +85,19 @@ rm ./get_helm.sh
 
 ### Test Helm
 ```bash
+export NGINX=nginx
 # Add NGINX Helm Repository
 helm repo add nginx https://kubernetes.github.io/ingress-nginx
 
 # NGINX Helm Chart Installation
-helm install my-ingress-nginx nginx/ingress-nginx --version 4.9.1
+kubectl create ns $NGINX
+helm -n $NGINX install $NGINX nginx/ingress-nginx --version 4.9.1
+
+# NGINX Store Installation Template to File 
+helm template $NGINX nginx/ingress-nginx --version 4.9.1 > test.yaml
+
+# NGINX Helm Chart Uninstallion from Namespace $NGINX
+helm -n $NGINX uninstall $NGINX
 ```
 
 # TODO
