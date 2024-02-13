@@ -101,8 +101,9 @@ helm -n $NGINX uninstall $NGINX
 ```
 
 # TODO
-- Network Controller
-- Storage Controller
-- Security Controller
-- Docker Registry
-- Workflow Manager
+- [x] Network Controller 
+- [ ] Storage Controller
+- [ ] Security Controller
+- [ ] Docker Registry
+- [ ] Workflow Manager
+- [ ] Load Balancer
