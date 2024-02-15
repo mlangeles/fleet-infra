@@ -22,9 +22,6 @@ apps:
   nginxing:
     namespace: nginxing
     type: helm
-    chart: ingress-nginx
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.9.1
 
     syncPolicy:
       automated:
@@ -32,4 +29,16 @@ apps:
         selfHeal: true
       syncOptions:
       - CreateNamespace=true
-    
+  
+  harbor:
+    namespace: harbor
+    type: helm
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+  
+
