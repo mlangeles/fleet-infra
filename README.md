@@ -100,38 +100,39 @@ helm template $NGINX nginx/ingress-nginx --version 4.9.1 > test.yaml
 helm -n $NGINX uninstall $NGINX
 ```
 
-### Min IO
+### Harbor 
 
-MinIO is an object storage solution that provides an Amazon Web Services S3-compatible API and supports all core S3 features.
+Harbor is an open source registry that secures artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted. 
 
 Assumptions:
 - Running Kubernetes cluster
 
 ```bash
 # Source
-# https://min.io/docs/minio/kubernetes/upstream/operations/install-deploy-manage/deploy-operator-helm.html
+# https://vmwire.com/2022/03/04/deploy-harbor-registry-with-helm-and-expose-with-ingress/
+# https://github.com/goharbor/harbor-helm
 
-# Add MinIO Repo
-helm repo add minio-operator https://operator.min.io
+# Add Harbor Repo
+helm repo add harbor https://helm.goharbor.io
 
-# MinIO Repo Validation
-helm search repo minio-operator
+# Harbor Repo Validation
+helm search repo harbor
 
-# MinIO Helm Installation
+# Harbor Helm Installation
 helm install \
-  --namespace minio-operator \
+  --namespace harbor \
   --create-namespace \
-  operator minio-operator/operator
+  operator harbor/harbor
 
-# MinIO Installtion Verification
-kubectl get all -n minio-operator
+# Harbor Installtion Verification
+kubectl get all -n harbor
 
-# Getting MinIO JSON Web Token (JWT)
-kubectl get secret/console-sa-secret -n minio-operator -o json | jq -r ".data.token" | base64 -d
+# Harbor Credentials
+# User: admin
+# Pass: Harbor12345
 
-# MinIO Proxy Dashboard
-kubectl -n minio-operator port-forward --address 0.0.0.0 svc/console 
-9090:9090
+# Harbor Proxy Dashboard
+kubectl -n harbor port-forward --address 0.0.0.0 svc/operator-harbor-portal 31080:80
 ```
 
 # TODO
