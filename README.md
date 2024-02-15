@@ -139,6 +139,6 @@ kubectl -n harbor port-forward --address 0.0.0.0 svc/operator-harbor-portal 3108
 - [x] Network Controller 
 - [ ] Storage Controller
 - [ ] Security Controller
-- [ ] Docker Registry
+- [x] Docker Registry
 - [ ] Workflow Manager
 - [ ] Load Balancer

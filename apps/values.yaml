@@ -11,34 +11,17 @@ apps:
   argocd:
     namespace: argocd
     type: kustomize
-
     syncPolicy:
       automated:
         prune: false
         selfHeal: false
-      syncOptions:
-      - CreateNamespace=true
 
   nginxing:
     namespace: nginxing
     type: helm
-
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-      - CreateNamespace=true
   
   harbor:
     namespace: harbor
     type: helm
-
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-      - CreateNamespace=true
   
 
