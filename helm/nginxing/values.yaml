@@ -1,0 +1,8 @@
+ingress-nginx:
+  controller:
+    service:
+      type: NodePort
+      internal:
+        nodePorts:
+          http: '31080'
+          https: '31443'

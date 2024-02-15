@@ -100,6 +100,40 @@ helm template $NGINX nginx/ingress-nginx --version 4.9.1 > test.yaml
 helm -n $NGINX uninstall $NGINX
 ```
 
+### Min IO
+
+MinIO is an object storage solution that provides an Amazon Web Services S3-compatible API and supports all core S3 features.
+
+Assumptions:
+- Running Kubernetes cluster
+
+```bash
+# Source
+# https://min.io/docs/minio/kubernetes/upstream/operations/install-deploy-manage/deploy-operator-helm.html
+
+# Add MinIO Repo
+helm repo add minio-operator https://operator.min.io
+
+# MinIO Repo Validation
+helm search repo minio-operator
+
+# MinIO Helm Installation
+helm install \
+  --namespace minio-operator \
+  --create-namespace \
+  operator minio-operator/operator
+
+# MinIO Installtion Verification
+kubectl get all -n minio-operator
+
+# Getting MinIO JSON Web Token (JWT)
+kubectl get secret/console-sa-secret -n minio-operator -o json | jq -r ".data.token" | base64 -d
+
+# MinIO Proxy Dashboard
+kubectl -n minio-operator port-forward --address 0.0.0.0 svc/console 
+9090:9090
+```
+
 # TODO
 - [x] Network Controller 
 - [ ] Storage Controller
