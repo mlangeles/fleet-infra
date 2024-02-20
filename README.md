@@ -41,7 +41,7 @@ kubectl -n $NAMESPACE get pods #all pods must be running
 kubectl -n argocd get secret argocd-initial-admin-secret -o yaml | grep -o 'password: .*' | sed -e s"/password\: //g" | base64 -d
 
 # Proxy the argocd-server
-kubectl -n $NAMESPACE port-forward --address 0.0.0.0  svc/argocd-server -n argocd 8080:443
+kubectl -n $NAMESPACE port-forward --address 0.0.0.0 svc/argocd-server 8080:443
 
 # Argo CD Client Installation
 # https://argo-cd.readthedocs.io/en/stable/cli_installation/
