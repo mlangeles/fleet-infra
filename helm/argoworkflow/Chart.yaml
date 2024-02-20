@@ -1,0 +1,11 @@
+apiVersion: v2
+name: helm-argoworkflow
+description: open source container-native workflow engine for orchestrating parallel jobs on Kubernetes.
+type: application
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+- name: argo-workflows
+  version: 0.40.10
+  repository: https://argoproj.github.io/argo-helm

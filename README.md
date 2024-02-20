@@ -135,6 +135,30 @@ kubectl get all -n harbor
 kubectl -n harbor port-forward --address 0.0.0.0 svc/operator-harbor-portal 31080:80
 ```
 
+### Argo Workflow
+
+Argo Workflows is an open source container-native workflow engine for orchestrating parallel jobs on Kubernetes.
+
+Assumptions:
+- Running Kubernetes cluster
+
+```bash
+export ARGOWORKFLOW=argoworkflow
+# Add Argo Workflow Helm Repository
+helm repo add argo https://argoproj.github.io/argo-helm
+
+# Argo Workflow Helm Chart Installation
+helm -n argocd install $ARGOWORKFLOW argo/argo-workflows --version 0.40.10
+
+# Argo Workflow Store Installation Template to File 
+helm template $ARGOWORKFLOW argo/argo-workflows --version 0.40.10 > test.yaml
+
+# Argo Workflow Helm Chart Uninstallion from Namespace $ARGOWORKFLOW
+helm -n argocd uninstall $ARGOWORKFLOW
+```
+
+
+
 # TODO
 - [x] Network Controller 
 - [ ] Storage Controller

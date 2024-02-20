@@ -23,5 +23,10 @@ apps:
   harbor:
     namespace: harbor
     type: helm
+
+  argoworkflow:
+    namespace: argocd
+    type: helm
+    
   
 
