@@ -131,8 +131,16 @@ kubectl get all -n harbor
 # User: admin
 # Pass: Harbor12345
 
+https://core.harbor.domain/
+
 # Harbor Proxy Dashboard
 kubectl -n harbor port-forward --address 0.0.0.0 svc/operator-harbor-portal 31080:80
+
+kubectl exec -ti buildah-pod -- bash
+
+buildah login core.harbor.domain --tls-verify=false -u admin -p Harbor12345
+
+buildah pull --tls-verify=false core.harbor.domain/dockerhub/alpine:latest
 ```
 
 ### Argo Workflow
@@ -165,4 +173,47 @@ helm -n argocd uninstall $ARGOWORKFLOW
 - [ ] Security Controller
 - [x] Docker Registry
 - [ ] Workflow Manager
+```bash
+# Add the following into an argo workflow template
+kubectl apply -f - <<EOF
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: buildah-config
+data:
+  registries.conf: |
+    unqualified-search-registries = ["core.harbor.domain:5000"]
+
+    [[registry]]
+      prefix = "core.harbor.domain:5000"
+      location = "core.harbor.domain:5000"
+      insecure = true
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: buildah-pod
+spec:
+  hostAliases:
+  - ip: "192.168.159.129"
+    hostnames:
+    - "core.harbor.domain"
+  containers:
+  - name: buildah-container
+    image: quay.io/buildah/stable
+    command: ["bash"]
+    tty: true
+    volumeMounts:
+    - name: buildah-config
+      mountPath: /mnt/containers/
+    securityContext:
+      privileged: true
+  volumes:
+  - name: buildah-config
+    configMap:
+      name: buildah-config
+EOF
+
+```
 - [ ] Load Balancer
