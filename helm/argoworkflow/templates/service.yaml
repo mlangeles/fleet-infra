@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: helm-argoworkflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: argo-workflows-server
+    app.kubernetes.io/part-of: argo-workflows
+    app.kubernetes.io/version: v3.5.4
+    helm.sh/chart: argo-workflows-0.40.10
+  name: workflow-np
+  namespace: argocd
+spec:
+  ports:
+  - nodePort: 31001
+    port: 2746
+    protocol: TCP
+    targetPort: 2746
+  selector:
+    app.kubernetes.io/instance: helm-argoworkflow
+    app.kubernetes.io/name: argo-workflows-server
+  type: NodePort
