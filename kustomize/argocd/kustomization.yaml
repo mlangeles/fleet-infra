@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources: 
 - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/install.yaml
+- patch/service.yaml
 
 components:
 - https://github.com/argoproj-labs/argocd-extensions/manifests

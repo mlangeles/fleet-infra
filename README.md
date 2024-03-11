@@ -163,6 +163,9 @@ helm template $ARGOWORKFLOW argo/argo-workflows --version 0.40.10 > test.yaml
 
 # Argo Workflow Helm Chart Uninstallion from Namespace $ARGOWORKFLOW
 helm -n argocd uninstall $ARGOWORKFLOW
+
+#Argo Workflow Port-forward
+kubectl -n argocd port-forward --address 0.0.0.0 svc/helm-argoworkflow-argo-workflows-server 2746:2746
 ```
 
 
