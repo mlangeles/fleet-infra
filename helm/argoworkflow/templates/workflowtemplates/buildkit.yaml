@@ -1,0 +1,121 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: buildkit
+  namespace: argocd
+spec:
+  arguments:
+    parameters:
+    - name: repo
+      value: https://github.com/argoproj/argo-workflows
+    - name: branch
+      value: main
+    - name: path
+      value: test/e2e/images/argosay/v2
+    - name: image
+      value: alexcollinsintuit/argosay:v2
+  entrypoint: main
+  serviceAccountName: argocd-server
+  templates:
+  - dag:
+      tasks:
+      - arguments:
+          parameters:
+          - name: repo
+            value: '{{workflow.parameters.repo}}'
+          - name: branch
+            value: '{{workflow.parameters.branch}}'
+        name: clone
+        template: clone
+      - arguments:
+          parameters:
+          - name: path
+            value: '{{workflow.parameters.path}}'
+          - name: image
+            value: '{{workflow.parameters.image}}'
+        depends: clone
+        name: image
+        template: image
+    inputs: {}
+    metadata: {}
+    name: main
+    outputs: {}
+  - container:
+      args:
+      - clone
+      - --depth
+      - "1"
+      - --branch
+      - '{{inputs.parameters.branch}}'
+      - --single-branch
+      - '{{inputs.parameters.repo}}'
+      - .
+      image: alpine/git:v2.26.2
+      name: ""
+      resources: {}
+      volumeMounts:
+      - mountPath: /work
+        name: work
+      workingDir: /work
+    inputs:
+      parameters:
+      - name: repo
+      - name: branch
+    metadata: {}
+    name: clone
+    outputs: {}
+  - container:
+      args:
+      - -c
+      - buildah build --from docker.io/argoproj/argosay:v1 -t core.harbor.domain/library/argotest:0.1.0
+        . && buildah push --tls-verify=false core.harbor.domain/library/argotest:0.1.0
+      command:
+      - bash
+      env:
+      - name: BUILDKITD_FLAGS
+        value: --oci-worker-no-process-sandbox
+      - name: DOCKER_CONFIG
+        value: /.docker
+      image: quay.io/buildah/stable
+      name: ""
+      readinessProbe:
+        exec:
+          command:
+          - sh
+          - -c
+          - buildctl debug workers
+      resources: {}
+      securityContext:
+        privileged: true
+      tty: true
+      volumeMounts:
+      - mountPath: /work
+        name: work
+      - mountPath: /.docker
+        name: docker-config
+      workingDir: /work/{{inputs.parameters.path}}
+    hostAliases:
+    - hostnames:
+      - core.harbor.domain
+      ip: 192.168.159.129
+    inputs:
+      parameters:
+      - name: path
+      - name: image
+    metadata: {}
+    name: image
+    outputs: {}
+    volumes:
+    - name: docker-config
+      secret:
+        secretName: docker-config
+  volumeClaimTemplates:
+  - metadata:
+      creationTimestamp: null
+      name: work
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 64Mi

@@ -168,7 +168,9 @@ helm -n argocd uninstall $ARGOWORKFLOW
 kubectl -n argocd port-forward --address 0.0.0.0 svc/helm-argoworkflow-argo-workflows-server 2746:2746
 
 #Generate Argo Workflow API Token
-kubectl -n argocd create token argo-workflow
+kubectl -n argocd create token helm-argoworkflow-argo-workflows-server 
+
+#Source: https://github.com/argoproj/argo-workflows/blob/main/examples/buildkit-template.yaml
 ```
 
 
@@ -182,19 +184,6 @@ kubectl -n argocd create token argo-workflow
 ```bash
 # Add the following into an argo workflow template
 kubectl apply -f - <<EOF
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: buildah-config
-data:
-  registries.conf: |
-    unqualified-search-registries = ["core.harbor.domain:5000"]
-
-    [[registry]]
-      prefix = "core.harbor.domain:5000"
-      location = "core.harbor.domain:5000"
-      insecure = true
 ---
 apiVersion: v1
 kind: Pod
