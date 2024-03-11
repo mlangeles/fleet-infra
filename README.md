@@ -166,6 +166,9 @@ helm -n argocd uninstall $ARGOWORKFLOW
 
 #Argo Workflow Port-forward
 kubectl -n argocd port-forward --address 0.0.0.0 svc/helm-argoworkflow-argo-workflows-server 2746:2746
+
+#Generate Argo Workflow API Token
+kubectl -n argocd create token argo-workflow
 ```
 
 

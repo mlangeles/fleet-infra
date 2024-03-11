@@ -1,3 +1,22 @@
 argo-workflows:
   server:
     authMode: client
+    serviceAccount:
+      create: true
+    rbac:
+      create: true
+    
+  workflow:
+    serviceAccount:
+      create: true
+    rbac:
+      create: true
+  
+  controller:
+    workflowNamespaces:
+      - default
+      - argocd
+    serviceAccount:
+      create: true
+    rbac:
+      create: true
